@@ -1,0 +1,25 @@
+output {
+    elasticsearch {
+         hosts => [ "https://xxx:9200" ]
+         ssl => true
+         ssl_certificate_verification => false
+         user => "***"
+         password => "***"
+         index => "apache"
+         document_id => "%{[@metadata][fingerprint]}"
+ }
+  stdout { codec => rubydebug }
+
+ if [tags] {
+                email {
+                to => "yourmail"
+                address => "yoursmtp"
+                port => 587
+                username => "yourloggin"
+                password => "psswd"
+                use_tls => true
+                subject => "ref_id"
+                body => "yourmessage: https://xxx:5601/app/discover#/doc/xxx/apache?id=%{[@metadata][fingerprint]}"
+}
+ }
+}
